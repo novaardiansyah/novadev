@@ -18,12 +18,21 @@ export async function GET(
       );
     }
 
-    // Make request to external API
+    // Get real IP and User-Agent from browser request
+    const forwarded = request.headers.get('x-forwarded-for');
+    const realIP = forwarded ? forwarded.split(',')[0] : request.ip || 'unknown';
+    const userAgent = request.headers.get('user-agent') || 'unknown';
+
+    // Make request to external API with forwarded headers
     const response = await fetch(`${API_URL}/short-urls/${short_code}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
+        'X-Forwarded-For': realIP,
+        'X-Real-IP': realIP,
+        'User-Agent': userAgent,
+        'X-Original-User-Agent': userAgent,
       },
     });
 
