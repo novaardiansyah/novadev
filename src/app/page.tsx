@@ -23,17 +23,11 @@ export default function Home() {
           </div>
 
           <div className="space-y-3">
-            <Link
-              href="/not-found"
-              className="inline-block w-full bg-blue-600 text-white text-center py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              Learn More
-            </Link>
             <a
               href="https://novaardiansyah.my.id"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full bg-gray-600 text-white text-center py-3 px-6 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+              className="inline-block w-full bg-blue-600 text-white text-center py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Visit My Website
             </a>
