@@ -1,0 +1,40 @@
+name: Deploy Production Application to Server
+
+on:
+  push:
+    branches: [production]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: SSH Deploy Application
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          port: ${{ secrets.PRODUCTION_PORT }}
+          script: |
+            cd ${{ secrets.PRODUCTION_PATH }}
+            git fetch origin
+            git checkout production
+            git pull origin production
+            rm -rf node_modules
+            rm -rf .next
+
+            export NVM_DIR="$HOME/.nvm"
+            source $NVM_DIR/nvm.sh
+
+            nvm install 22.16.0
+            nvm use 22.16.0
+
+            npm install --legacy-peer-deps
+            npm run build
+            npm run pm2:restart || npm run pm2:start
+            pm2 save
+            pm2 startup
