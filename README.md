@@ -47,7 +47,7 @@ NovaDev/
 │   │   └── globals.css   # Global styles
 ├── public/               # Static assets
 ├── package.json          # Dependencies and scripts
-└── README.md            # This file
+└── README.md             # This file
 ```
 
 ## Key Features Implemented 🧩
