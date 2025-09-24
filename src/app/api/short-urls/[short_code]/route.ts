@@ -20,7 +20,7 @@ export async function GET(
 
     // Get real IP and User-Agent from browser request
     const forwarded = request.headers.get('x-forwarded-for');
-    const realIP = forwarded ? forwarded.split(',')[0] : request.ip || 'unknown';
+    const realIP = forwarded ? forwarded.split(',')[0] : 'unknown';
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
     // Make request to external API with forwarded headers
