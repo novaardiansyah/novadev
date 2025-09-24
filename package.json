@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack -p 3002",
     "build": "next build --turbopack",
     "start": "next start -p 3002",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pm2:start": "pm2 start npm --name 'novadev' -- run start",
+    "pm2:stop": "pm2 stop novadev",
+    "pm2:restart": "pm2 restart novadev",
+    "pm2:delete": "pm2 delete novadev"
   },
   "dependencies": {
     "react": "19.1.0",
