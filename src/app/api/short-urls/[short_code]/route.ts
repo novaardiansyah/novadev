@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { short_code: string } }
+  { params }: { params: Promise<{ short_code: string }> }
 ) {
   try {
-    const { short_code } = params;
+    const { short_code } = await params;
 
     // Get environment variables
     const API_URL = process.env.API_URL;
