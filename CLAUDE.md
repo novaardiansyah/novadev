@@ -49,3 +49,9 @@ npm run lint     # Run ESLint
 - Runs on port 3002 by default
 - Uses PM2 for production process management
 - Environment variables should be configured in `.env` file
+
+## Git Workflow
+- **Branch**: All development should be done on the `main` branch
+- **Commit**: Always commit changes with descriptive messages
+- **Push**: Always push commits to remote origin and person after committing
+- **Workflow**: `git add .` → `git commit -m "message"` → `git push origin main && git push person main`
