@@ -43,6 +43,7 @@ export default function Home() {
           success: true,
           data: data.data
         });
+        // Clear form immediately on successful submission
         setFormData({ long_url: '', note: '' });
         setShowForm(false);
       } else {
