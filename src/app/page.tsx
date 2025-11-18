@@ -9,7 +9,16 @@ export default function Home() {
     note: ''
   });
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; data?: any; error?: string } | null>(null);
+  const [result, setResult] = useState<{ success: boolean; data?: {
+    uid: string;
+    short_url: string;
+    long_url: string;
+    note?: string;
+    clicks: number;
+    is_active: boolean;
+    updated_at: string;
+    qrcode_url: string;
+  }; error?: string } | null>(null);
   const [showForm, setShowForm] = useState(true);
   const [showToast, setShowToast] = useState(false);
 
@@ -198,7 +207,7 @@ export default function Home() {
                     <div className="flex items-center justify-between mb-1">
                       <p className="text-sm text-emerald-200">Short URL:</p>
                       <button
-                        onClick={() => handleCopyToClipboard(result.data.short_url)}
+                        onClick={() => result.data && handleCopyToClipboard(result.data.short_url)}
                         className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
                         title="Copy to clipboard"
                       >
@@ -243,7 +252,7 @@ export default function Home() {
                     <div className="flex items-center justify-between mb-1">
                       <p className="text-emerald-200 text-sm">Destination:</p>
                       <button
-                        onClick={() => handleCopyToClipboard(result.data.long_url)}
+                        onClick={() => result.data && handleCopyToClipboard(result.data.long_url)}
                         className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
                         title="Copy to clipboard"
                       >
