@@ -305,7 +305,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-10 mb-2 md:mb-5 text-blue-100 text-xs">
+        <div className="text-center mt-10 mb-5 text-blue-100 text-xs">
           <p>
             © {new Date().getFullYear()} Made with{" "}
             <span className="text-red-400 animate-pulse">❤️</span> by{" "}
