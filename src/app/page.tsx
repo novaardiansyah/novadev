@@ -90,19 +90,21 @@ export default function Home() {
         {/* Glass morphism card */}
         <div className="backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
           {/* Header with logo */}
-          <div className="text-center p-8 border-b border-white/10">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-cyan-300 p-1">
-              <img
-                src="/logo-dark-circle.png"
-                alt="Logo"
-                className="w-full h-full object-cover rounded-full bg-white"
-              />
+          {showForm && (
+            <div className="text-center p-8 border-b border-white/10">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-cyan-300 p-1">
+                <img
+                  src="/logo-dark-circle.png"
+                  alt="Logo"
+                  className="w-full h-full object-cover rounded-full bg-white"
+                />
+              </div>
+              <h1 className="text-3xl font-bold text-white mb-2">Nova Link</h1>
+              <p className="text-blue-100 text-sm">
+                Transform your long URLs into sleek, shareable links
+              </p>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Nova Link</h1>
-            <p className="text-blue-100 text-sm">
-              Transform your long URLs into sleek, shareable links
-            </p>
-          </div>
+          )}
 
           {/* Form section */}
           <div className="p-8">
@@ -161,102 +163,109 @@ export default function Home() {
 
             {/* Result display */}
             {result && result.success && result.data && (
-              <div className="mt-2 p-6 rounded-xl backdrop-blur-sm border bg-emerald-500/20 border-emerald-400/30">
-                <div className="text-emerald-100">
-                  <h3 className="font-semibold mb-4 flex items-center">
-                    <span className="w-6 h-6 bg-emerald-400/30 rounded-full flex items-center justify-center mr-2">✓</span>
-                    Link created successfully!
-                  </h3>
+              <div className="text-emerald-100">
+                <h3 className="font-semibold mb-2 flex items-center">
+                  <span className="w-6 h-6 bg-emerald-400/30 rounded-full flex items-center justify-center mr-2">
+                    ✓
+                  </span>
+                  {result.data.clicks > 0 ? 'Link found successfully!' : 'Link created successfully!'}
+                </h3>
+                {result.data.clicks > 0 && (
+                  <p className="text-sm text-emerald-200 mb-4">
+                    This URL already exists and has been used.
+                  </p>
+                )}
 
-                  <div className="space-y-4">
-                    {/* QR Code */}
-                    <div className="text-center">
-                      <div className="inline-block p-4 bg-white rounded-lg">
-                        <img
-                          src={result.data.qrcode_url}
-                          alt="QR Code"
-                          className="w-32 h-32 object-contain"
-                          onError={(e) => {
-                            e.currentTarget.src = '';
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                      <p className="text-xs text-emerald-200 mt-2">Scan to open link</p>
+                <div className="space-y-4">
+                  {/* QR Code */}
+                  <div className="text-center">
+                    <div className="inline-block p-4 bg-white rounded-lg">
+                      <img
+                        src={result.data.qrcode_url}
+                        alt="QR Code"
+                        className="w-32 h-32 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.src = '';
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
                     </div>
+                    <p className="text-xs text-emerald-200 mt-2">Scan to open link</p>
+                  </div>
 
-                    {/* Short URL */}
+                  {/* Short URL */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-sm text-emerald-200">Short URL:</p>
+                      <button
+                        onClick={() => handleCopyToClipboard(result.data.short_url)}
+                        className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                        title="Copy to clipboard"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="p-3 bg-emerald-400/10 rounded-lg">
+                      <code className="text-emerald-100 text-sm font-mono break-all">
+                        {result.data.short_url}
+                      </code>
+                    </div>
+                  </div>
+
+                  {/* Note */}
+                  {result.data.note && (
                     <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm text-emerald-200">Short URL:</p>
-                        <button
-                          onClick={() => handleCopyToClipboard(result.data.short_url)}
-                          className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
-                          title="Copy to clipboard"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                          </svg>
-                        </button>
-                      </div>
+                      <p className="text-sm text-emerald-200 mb-1">Note:</p>
                       <div className="p-3 bg-emerald-400/10 rounded-lg">
-                        <code className="text-emerald-100 text-sm font-mono break-all">
-                          {result.data.short_url}
-                        </code>
-                      </div>
-                    </div>
-
-                    {/* Note */}
-                    {result.data.note && (
-                      <div>
-                        <p className="text-sm text-emerald-200 mb-1">Note:</p>
                         <p className="text-emerald-100">{result.data.note}</p>
                       </div>
-                    )}
-
-                    {/* Additional Details */}
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-emerald-200 mb-1">UID:</p>
-                        <p className="text-emerald-100 font-mono">{result.data.uid}</p>
-                      </div>
-                      <div>
-                        <p className="text-emerald-200 mb-1">Clicks:</p>
-                        <p className="text-emerald-100">{result.data.clicks}</p>
-                      </div>
-                      <div>
-                        <p className="text-emerald-200 mb-1">Status:</p>
-                        <p className={`font-medium ${result.data.is_active ? 'text-emerald-100' : 'text-yellow-200'}`}>
-                          {result.data.is_active ? 'Active' : 'Inactive'}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-emerald-200 mb-1">Created:</p>
-                        <p className="text-emerald-100 text-xs">
-                          {new Date(result.data.updated_at).toLocaleDateString()}
-                        </p>
-                      </div>
                     </div>
+                  )}
 
-                    {/* Original URL */}
+                  {/* Additional Details */}
+                  <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm text-emerald-200">Destination:</p>
-                        <button
-                          onClick={() => handleCopyToClipboard(result.data.long_url)}
-                          className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
-                          title="Copy to clipboard"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div className="p-3 bg-emerald-400/10 rounded-lg">
-                        <code className="text-emerald-100 text-xs font-mono break-all">
-                          {result.data.long_url}
-                        </code>
-                      </div>
+                      <p className="text-emerald-200 mb-1">UID:</p>
+                      <p className="text-emerald-100 font-mono">{result.data.uid}</p>
+                    </div>
+                    <div>
+                      <p className="text-emerald-200 mb-1">Clicks:</p>
+                      <p className="text-emerald-100">{result.data.clicks}</p>
+                    </div>
+                    <div>
+                      <p className="text-emerald-200 mb-1">Status:</p>
+                      <p className={`font-medium ${result.data.is_active ? 'text-emerald-100' : 'text-yellow-200'}`}>
+                        {result.data.is_active ? 'Active' : 'Inactive'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-emerald-200 mb-1">Created:</p>
+                      <p className="text-emerald-100 text-xs">
+                        {new Date(result.data.updated_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Original URL */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-sm text-emerald-200">Destination:</p>
+                      <button
+                        onClick={() => handleCopyToClipboard(result.data.long_url)}
+                        className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                        title="Copy to clipboard"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="p-3 bg-emerald-400/10 rounded-lg">
+                      <code className="text-emerald-100 text-xs font-mono break-all">
+                        {result.data.long_url}
+                      </code>
                     </div>
                   </div>
                 </div>
