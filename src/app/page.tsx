@@ -95,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-3 p-sm-5">
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-3 md:p-5">
       <div className="w-full max-w-lg">
         {/* Glass morphism card */}
         <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
@@ -188,7 +188,7 @@ export default function Home() {
 
                 <div className="space-y-4">
                   {/* QR Code */}
-                  <div className="text-center">
+                  <div className="text-center mt-4">
                     <div className="inline-block p-4 bg-white rounded-lg">
                       <img
                         src={result.data.qrcode_url}
@@ -305,7 +305,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-10 text-blue-100 text-xs">
+        <div className="text-center mt-10 mb-2 md:mb-5 text-blue-100 text-xs">
           <p>
             © {new Date().getFullYear()} Made with{" "}
             <span className="text-red-400 animate-pulse">❤️</span> by{" "}
