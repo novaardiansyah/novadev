@@ -10,6 +10,8 @@ export default function Home() {
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ success: boolean; data?: any; error?: string } | null>(null);
+  const [showForm, setShowForm] = useState(true);
+  const [showToast, setShowToast] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ export default function Home() {
           data: data.data
         });
         setFormData({ long_url: '', note: '' });
+        setShowForm(false);
       } else {
         setResult({
           success: false,
@@ -57,6 +60,30 @@ export default function Home() {
     }));
   };
 
+  const handleCreateAnother = () => {
+    setResult(null);
+    setShowForm(true);
+    setFormData({ long_url: '', note: '' });
+  };
+
+  const handleCopyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
@@ -79,60 +106,62 @@ export default function Home() {
 
           {/* Form section */}
           <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <label htmlFor="long_url" className="text-blue-100 text-sm font-medium">
-                  Destination URL
-                </label>
-                <input
-                  type="url"
-                  id="long_url"
-                  name="long_url"
-                  value={formData.long_url}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="https://your-very-long-url.com/here/goes/the/path"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                />
-              </div>
+            {showForm && (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="space-y-2">
+                  <label htmlFor="long_url" className="text-blue-100 text-sm font-medium">
+                    Destination URL
+                  </label>
+                  <input
+                    type="url"
+                    id="long_url"
+                    name="long_url"
+                    value={formData.long_url}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="https://your-very-long-url.com"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label htmlFor="note" className="text-blue-100 text-sm font-medium">
-                  Description
-                </label>
-                <textarea
-                  id="note"
-                  name="note"
-                  value={formData.note}
-                  onChange={handleInputChange}
-                  placeholder="What's this link for?"
-                  rows={2}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none"
-                />
-              </div>
+                <div className="space-y-2">
+                  <label htmlFor="note" className="text-blue-100 text-sm font-medium">
+                    Description
+                  </label>
+                  <textarea
+                    id="note"
+                    name="note"
+                    value={formData.note}
+                    onChange={handleInputChange}
+                    placeholder="What's this link for?"
+                    rows={2}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                disabled={loading || !formData.long_url}
-                className="w-full bg-gradient-to-r from-blue-400 to-cyan-300 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-500 hover:to-cyan-400 disabled:from-blue-800/50 disabled:to-blue-700/50 disabled:cursor-not-allowed cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg disabled:transform-none disabled:hover:scale-100"
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Generating link...
-                  </span>
-                ) : (
-                  'Generate Short Link'
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={loading || !formData.long_url}
+                  className="w-full bg-gradient-to-r from-blue-400 to-cyan-300 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-500 hover:to-cyan-400 disabled:from-blue-800/50 disabled:to-blue-700/50 disabled:cursor-not-allowed cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg disabled:transform-none disabled:hover:scale-100"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Generating link...
+                    </span>
+                  ) : (
+                    'Generate Short Link'
+                  )}
+                </button>
+              </form>
+            )}
 
             {/* Result display */}
             {result && result.success && result.data && (
-              <div className="mt-6 p-6 rounded-xl backdrop-blur-sm border bg-emerald-500/20 border-emerald-400/30">
+              <div className="mt-2 p-6 rounded-xl backdrop-blur-sm border bg-emerald-500/20 border-emerald-400/30">
                 <div className="text-emerald-100">
                   <h3 className="font-semibold mb-4 flex items-center">
                     <span className="w-6 h-6 bg-emerald-400/30 rounded-full flex items-center justify-center mr-2">✓</span>
@@ -158,7 +187,18 @@ export default function Home() {
 
                     {/* Short URL */}
                     <div>
-                      <p className="text-sm text-emerald-200 mb-1">Short URL:</p>
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm text-emerald-200">Short URL:</p>
+                        <button
+                          onClick={() => handleCopyToClipboard(result.data.short_url)}
+                          className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                          title="Copy to clipboard"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
+                      </div>
                       <div className="p-3 bg-emerald-400/10 rounded-lg">
                         <code className="text-emerald-100 text-sm font-mono break-all">
                           {result.data.short_url}
@@ -200,7 +240,18 @@ export default function Home() {
 
                     {/* Original URL */}
                     <div>
-                      <p className="text-sm text-emerald-200 mb-1">Destination:</p>
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm text-emerald-200">Destination:</p>
+                        <button
+                          onClick={() => handleCopyToClipboard(result.data.long_url)}
+                          className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                          title="Copy to clipboard"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
+                      </div>
                       <div className="p-3 bg-emerald-400/10 rounded-lg">
                         <code className="text-emerald-100 text-xs font-mono break-all">
                           {result.data.long_url}
@@ -208,6 +259,16 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Create Another Button */}
+                <div className="mt-4 pt-4 border-t border-emerald-400/30">
+                  <button
+                    onClick={handleCreateAnother}
+                    className="w-full bg-emerald-400/20 hover:bg-emerald-400/30 text-emerald-100 py-2 px-4 rounded-lg font-medium border border-emerald-400/30 cursor-pointer transition-colors duration-200"
+                  >
+                    Create Another Link
+                  </button>
                 </div>
               </div>
             )}
@@ -241,6 +302,18 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed bottom-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 animate-pulse">
+          <div className="flex items-center">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Copied to clipboard!</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
