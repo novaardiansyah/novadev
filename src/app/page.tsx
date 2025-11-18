@@ -85,13 +85,13 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-3 p-sm-5">
       <div className="w-full max-w-lg">
         {/* Glass morphism card */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
+        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
           {/* Header with logo */}
           {showForm && (
-            <div className="text-center p-8 border-b border-white/10">
+            <div className="text-center p-8 border-b border-white/10 pb-4 sm:pb-4">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-cyan-300 p-1">
                 <img
                   src="/logo-dark-circle.png"
@@ -107,7 +107,7 @@ export default function Home() {
           )}
 
           {/* Form section */}
-          <div className="p-8">
+          <div className="p-4 md:p-6 pb-6 md:pb-6">
             {showForm && (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
@@ -214,34 +214,24 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Note */}
-                  {result.data.note && (
-                    <div>
-                      <p className="text-sm text-emerald-200 mb-1">Note:</p>
-                      <div className="p-3 bg-emerald-400/10 rounded-lg">
-                        <p className="text-emerald-100">{result.data.note}</p>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Additional Details */}
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-emerald-200 mb-1">UID:</p>
-                      <p className="text-emerald-100 font-mono">{result.data.uid}</p>
+                      <p className="text-emerald-200 text-sm mb-1">UID:</p>
+                      <p className="text-emerald-100 text-xs font-mono">{result.data.uid}</p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 mb-1">Clicks:</p>
-                      <p className="text-emerald-100">{result.data.clicks}</p>
+                      <p className="text-emerald-200 text-sm mb-1">Clicks:</p>
+                      <p className="text-emerald-100 text-xs">{result.data.clicks}</p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 mb-1">Status:</p>
-                      <p className={`font-medium ${result.data.is_active ? 'text-emerald-100' : 'text-yellow-200'}`}>
+                      <p className="text-emerald-200 text-sm mb-1">Status:</p>
+                      <p className={`font-medium text-xs ${result.data.is_active ? 'text-emerald-100' : 'text-yellow-200'}`}>
                         {result.data.is_active ? 'Active' : 'Inactive'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 mb-1">Created:</p>
+                      <p className="text-emerald-200 text-sm mb-1">Created:</p>
                       <p className="text-emerald-100 text-xs">
                         {new Date(result.data.updated_at).toLocaleDateString()}
                       </p>
@@ -251,7 +241,7 @@ export default function Home() {
                   {/* Original URL */}
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-sm text-emerald-200">Destination:</p>
+                      <p className="text-emerald-200 text-sm">Destination:</p>
                       <button
                         onClick={() => handleCopyToClipboard(result.data.long_url)}
                         className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
@@ -268,13 +258,21 @@ export default function Home() {
                       </code>
                     </div>
                   </div>
+
+                  {/* Note */}
+                  {result.data.note && (
+                    <div>
+                      <p className="text-emerald-200 text-sm mb-1">Note:</p>
+                      <p className="text-emerald-100 text-xs">{result.data.note}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Create Another Button */}
                 <div className="mt-4 pt-4 border-t border-emerald-400/30">
                   <button
                     onClick={handleCreateAnother}
-                    className="w-full bg-emerald-400/20 hover:bg-emerald-400/30 text-emerald-100 py-2 px-4 rounded-lg font-medium border border-emerald-400/30 cursor-pointer transition-colors duration-200"
+                    className="w-full bg-gradient-to-r from-blue-400 to-cyan-300 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-500 hover:to-cyan-400 cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                   >
                     Create Another Link
                   </button>
@@ -297,9 +295,10 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-blue-100 text-xs">
+        <div className="text-center mt-10 text-blue-100 text-xs">
           <p>
-            © {new Date().getFullYear()} Created by{" "}
+            © {new Date().getFullYear()} Made with{" "}
+            <span className="text-red-400 animate-pulse">❤️</span> by{" "}
             <a
               href="https://novaardiansyah.my.id"
               target="_blank"
