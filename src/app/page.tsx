@@ -95,22 +95,22 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center p-3 md:p-5">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-3 md:p-5">
       <div className="w-full max-w-lg">
-        {/* Glass morphism card */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+        {/* Clean white card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           {/* Header with logo */}
           {showForm && (
-            <div className="text-center p-8 border-b border-white/10 pb-4 sm:pb-4">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-cyan-300 p-1">
+            <div className="text-center p-8 border-b border-gray-100 pb-4 sm:pb-4">
+              <div className="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden">
                 <img
                   src="/logo-dark-circle.png"
                   alt="Logo"
-                  className="w-full h-full object-cover rounded-full bg-white"
+                  className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">Nova Link</h1>
-              <p className="text-blue-100 text-sm">
+              <h1 className="text-3xl font-bold text-blue-900 mb-2">Nova Link</h1>
+              <p className="text-gray-600 text-sm">
                 Transform your long URLs into sleek, shareable links
               </p>
             </div>
@@ -121,7 +121,7 @@ export default function Home() {
             {showForm && (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <label htmlFor="long_url" className="text-blue-100 text-sm font-medium">
+                  <label htmlFor="long_url" className="text-gray-700 text-sm font-medium">
                     Destination URL
                   </label>
                   <input
@@ -132,12 +132,12 @@ export default function Home() {
                     onChange={handleInputChange}
                     required
                     placeholder="https://your-very-long-url.com"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="note" className="text-blue-100 text-sm font-medium">
+                  <label htmlFor="note" className="text-gray-700 text-sm font-medium">
                     Description
                   </label>
                   <textarea
@@ -147,14 +147,14 @@ export default function Home() {
                     onChange={handleInputChange}
                     placeholder="What's this link for?"
                     rows={2}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading || !formData.long_url}
-                  className="w-full bg-gradient-to-r from-blue-400 to-cyan-300 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-500 hover:to-cyan-400 disabled:from-blue-800/50 disabled:to-blue-700/50 disabled:cursor-not-allowed cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg disabled:transform-none disabled:hover:scale-100"
+                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed cursor-pointer transition-all duration-200"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
@@ -173,15 +173,15 @@ export default function Home() {
 
             {/* Result display */}
             {result && result.success && result.data && (
-              <div className="text-emerald-100">
+              <div className="text-gray-900">
                 <h3 className="font-semibold mb-2 flex items-center">
-                  <span className="w-6 h-6 bg-emerald-400/30 rounded-full flex items-center justify-center mr-2">
+                  <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-2">
                     ✓
                   </span>
                   {result.data.clicks > 0 ? 'Link found successfully!' : 'Link created successfully!'}
                 </h3>
                 {result.data.clicks > 0 && (
-                  <p className="text-sm text-emerald-200 mb-4">
+                  <p className="text-sm text-gray-600 mb-4">
                     This URL already exists and has been used.
                   </p>
                 )}
@@ -189,7 +189,7 @@ export default function Home() {
                 <div className="space-y-4">
                   {/* QR Code */}
                   <div className="text-center mt-4">
-                    <div className="inline-block p-4 bg-white rounded-lg">
+                    <div className="inline-block p-4 bg-gray-50 rounded-lg">
                       <img
                         src={result.data.qrcode_url}
                         alt="QR Code"
@@ -200,16 +200,16 @@ export default function Home() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-emerald-200 mt-2">Scan to open link</p>
+                    <p className="text-xs text-gray-600 mt-2">Scan to open link</p>
                   </div>
 
                   {/* Short URL */}
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-sm text-emerald-200">Short URL:</p>
+                      <p className="text-sm text-gray-700">Short URL:</p>
                       <button
                         onClick={() => result.data && handleCopyToClipboard(result.data.short_url)}
-                        className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                        className="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors cursor-pointer"
                         title="Copy to clipboard"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,8 +217,8 @@ export default function Home() {
                         </svg>
                       </button>
                     </div>
-                    <div className="p-3 bg-emerald-400/10 rounded-lg">
-                      <code className="text-emerald-100 text-sm font-mono break-all">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <code className="text-blue-900 text-sm font-mono break-all">
                         {result.data.short_url}
                       </code>
                     </div>
@@ -227,22 +227,22 @@ export default function Home() {
                   {/* Additional Details */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-emerald-200 text-sm mb-1">UID:</p>
-                      <p className="text-emerald-100 text-xs font-mono">{result.data.uid}</p>
+                      <p className="text-gray-700 text-sm mb-1">UID:</p>
+                      <p className="text-gray-900 text-xs font-mono">{result.data.uid}</p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 text-sm mb-1">Clicks:</p>
-                      <p className="text-emerald-100 text-xs">{result.data.clicks}</p>
+                      <p className="text-gray-700 text-sm mb-1">Clicks:</p>
+                      <p className="text-gray-900 text-xs">{result.data.clicks}</p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 text-sm mb-1">Status:</p>
-                      <p className={`font-medium text-xs ${result.data.is_active ? 'text-emerald-100' : 'text-yellow-200'}`}>
+                      <p className="text-gray-700 text-sm mb-1">Status:</p>
+                      <p className={`font-medium text-xs ${result.data.is_active ? 'text-green-600' : 'text-yellow-600'}`}>
                         {result.data.is_active ? 'Active' : 'Inactive'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-emerald-200 text-sm mb-1">Created:</p>
-                      <p className="text-emerald-100 text-xs">
+                      <p className="text-gray-700 text-sm mb-1">Created:</p>
+                      <p className="text-gray-900 text-xs">
                         {new Date(result.data.updated_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -251,10 +251,10 @@ export default function Home() {
                   {/* Original URL */}
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-emerald-200 text-sm">Destination:</p>
+                      <p className="text-gray-700 text-sm">Destination:</p>
                       <button
                         onClick={() => result.data && handleCopyToClipboard(result.data.long_url)}
-                        className="text-emerald-200 hover:text-emerald-100 p-1 rounded hover:bg-emerald-400/20 transition-colors cursor-pointer"
+                        className="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors cursor-pointer"
                         title="Copy to clipboard"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -262,8 +262,8 @@ export default function Home() {
                         </svg>
                       </button>
                     </div>
-                    <div className="p-3 bg-emerald-400/10 rounded-lg">
-                      <code className="text-emerald-100 text-xs font-mono break-all">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <code className="text-gray-900 text-xs font-mono break-all">
                         {result.data.long_url}
                       </code>
                     </div>
@@ -272,17 +272,17 @@ export default function Home() {
                   {/* Note */}
                   {result.data.note && (
                     <div>
-                      <p className="text-emerald-200 text-sm mb-1">Note:</p>
-                      <p className="text-emerald-100 text-xs">{result.data.note}</p>
+                      <p className="text-gray-700 text-sm mb-1">Note:</p>
+                      <p className="text-gray-900 text-xs">{result.data.note}</p>
                     </div>
                   )}
                 </div>
 
                 {/* Create Another Button */}
-                <div className="mt-4 pt-4 border-t border-emerald-400/30">
+                <div className="mt-4 pt-4 border-t border-gray-200">
                   <button
                     onClick={handleCreateAnother}
-                    className="w-full bg-gradient-to-r from-blue-400 to-cyan-300 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-500 hover:to-cyan-400 cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 cursor-pointer transition-all duration-200"
                   >
                     Create Another Link
                   </button>
@@ -291,13 +291,13 @@ export default function Home() {
             )}
 
             {result && !result.success && (
-              <div className="mt-6 p-4 rounded-xl backdrop-blur-sm border bg-red-500/20 border-red-400/30">
-                <div className="text-red-100">
+              <div className="mt-6 p-4 rounded-xl border bg-red-50 border-red-200">
+                <div className="text-red-900">
                   <h3 className="font-semibold mb-1 flex items-center">
-                    <span className="w-6 h-6 bg-red-400/30 rounded-full flex items-center justify-center mr-2">✕</span>
+                    <span className="w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-2">✕</span>
                     Something went wrong
                   </h3>
-                  <p className="text-sm text-red-200">{result.error}</p>
+                  <p className="text-sm text-red-700">{result.error}</p>
                 </div>
               </div>
             )}
@@ -305,15 +305,15 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-10 mb-5 text-blue-100 text-xs">
+        <div className="text-center mt-10 mb-5 text-gray-600 text-xs">
           <p>
             © {new Date().getFullYear()} Made with{" "}
-            <span className="text-red-400 animate-pulse">❤️</span> by{" "}
+            <span className="text-red-500 animate-pulse">❤️</span> by{" "}
             <a
               href="https://novaardiansyah.my.id"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-300 hover:text-white underline font-medium transition-colors"
+              className="text-blue-600 hover:text-blue-700 underline font-medium transition-colors"
             >
               Nova Ardiansyah
             </a>
@@ -323,7 +323,7 @@ export default function Home() {
 
       {/* Toast Notification */}
       {showToast && (
-        <div className="fixed bottom-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 animate-pulse">
+        <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 animate-pulse">
           <div className="flex items-center">
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

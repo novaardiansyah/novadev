@@ -75,23 +75,23 @@ export default function RedirectPage() {
   }, [params.url, countdownSeconds]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-3 p-sm-5">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-3 p-sm-5">
       <div className="w-full max-w-lg">
-        {/* Glass morphism card */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/20 overflow-hidden p-8 md:p-12">
+        {/* Clean white card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden p-8 md:p-12">
           <div className="text-center">
           <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-4">Redirecting...</h1>
-          <p className="text-lg text-blue-100 mb-8">
+          <h1 className="text-3xl font-bold text-blue-900 mb-4">Redirecting...</h1>
+          <p className="text-lg text-gray-700 mb-8">
             You will be redirected in {countdown} second{countdown !== 1 ? "s" : ""}
           </p>
-          <div className="w-full h-3 bg-white/20 rounded-full mx-auto mb-8 overflow-hidden">
+          <div className="w-full h-3 bg-gray-200 rounded-full mx-auto mb-8 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-blue-400 to-cyan-300 rounded-full transition-all duration-1000 ease-out"
+              className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out"
               style={{ width: `${((countdownSeconds - countdown) / countdownSeconds) * 100}%` }}
             />
           </div>
@@ -100,33 +100,33 @@ export default function RedirectPage() {
               <div
                 key={num}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  num <= countdownSeconds - countdown ? 'bg-blue-400' : 'bg-white/30'
+                  num <= countdownSeconds - countdown ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               />
             ))}
           </div>
-          <p className="text-sm text-blue-100 mb-4 break-all">
-            Destination: <span className="font-mono text-blue-300 break-all">{destination || 'Loading...'}</span>
+          <p className="text-sm text-gray-600 mb-4 break-all">
+            Destination: <span className="font-mono text-blue-600 break-all">{destination || 'Loading...'}</span>
           </p>
-          <p className="text-sm text-blue-100">
+          <p className="text-sm text-gray-600">
             If you are not redirected automatically,
             <a
               href={destination || '#'}
-              className="text-blue-300 hover:text-white underline ml-1 font-medium"
+              className="text-blue-600 hover:text-blue-700 underline ml-1 font-medium"
               onClick={(e) => !destination && e.preventDefault()}
             >
               click here
             </a>
           </p>
-          <div className="mt-8 pt-6 border-t border-white/10">
-            <p className="text-xs text-blue-100">
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-xs text-gray-600">
               © {new Date().getFullYear()} Made with{" "}
               <span className="text-red-500 animate-pulse">❤️</span> by{" "}
               <a
                 href="https://novadev.my.id"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-white underline font-medium transition-colors"
+                className="text-blue-600 hover:text-blue-700 underline font-medium transition-colors"
               >
                 Nova Ardiansyah
               </a>

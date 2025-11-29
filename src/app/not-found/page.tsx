@@ -2,23 +2,21 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-pink-100 p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-md w-full transform transition-all hover:scale-105">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-md w-full">
         <div className="text-center">
-          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">URL Not Found</h1>
-          <p className="text-lg text-gray-600 mb-8">
-            The requested URL does not exist or is invalid.
-          </p>
+          <h1 className="text-3xl font-bold text-blue-900 mb-3">404 Not Found!</h1>
 
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <p className="text-sm text-gray-600 text-center">
-              This URL shortener service provides dynamic redirects.
-              Simply add any path after the domain to create a short URL.
+            <p className="text-sm text-gray-700 text-center">
+              The requested URL does not exist or is invalid. <br />
+              Short URLs can only be created from the home page.
+              Visit the home page to create your short link.
             </p>
           </div>
 
@@ -33,20 +31,21 @@ export default function NotFound() {
               href="https://novaardiansyah.my.id"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full bg-gray-600 text-white text-center py-3 px-6 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+              className="inline-block w-full border border-blue-600 text-blue-600 text-center py-3 px-6 rounded-lg font-medium hover:bg-blue-50 transition-colors"
             >
               Visit My Website
             </a>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-xs text-gray-400">
-              © {new Date().getFullYear()} Created by{" "}
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-600">
+              © {new Date().getFullYear()} Made with{" "}
+              <span className="text-red-500 animate-pulse">❤️</span> by{" "}
               <a
                 href="https://novaardiansyah.my.id"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 underline font-medium"
+                className="text-blue-600 hover:text-blue-700 underline font-medium transition-colors"
               >
                 Nova Ardiansyah
               </a>
