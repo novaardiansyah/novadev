@@ -21,20 +21,37 @@ jobs:
           port: ${{ secrets.PRODUCTION_PORT }}
           script: |
             cd ${{ secrets.PRODUCTION_PATH }}
-            git fetch origin
-            git checkout production
-            git pull origin production
-            rm -rf node_modules/.bin/next
-            rm -rf .next
 
+            echo "--> Setup NVM..."
             export NVM_DIR="$HOME/.nvm"
             source $NVM_DIR/nvm.sh
 
             nvm install 22.16.0
             nvm use 22.16.0
 
-            npm install --legacy-peer-deps
+            echo "--> Git sync..."
+            git fetch origin
+            git checkout production
+            git pull origin production
+            
+            echo "--> Clear build cache..."
+            rm -rf node_modules/.bin/next
+            rm -rf .next
+
+            echo "--> Install dependencies..."
+            npm ci
+
+            echo "--> Build application..."
             npm run build
+
+            echo "--> Set permission..."
+            chmod +x ./docker/bash/fixperm.sh
+            ./docker/bash/fixperm.sh
+            echo "INFO: Permission successfully set"
+
+            echo "--> Run application..."
             npm run pm2:restart || npm run pm2:start
-            pm2 save
             pm2 startup
+            pm2 save
+
+            echo "INFO: Deployment completed successfully"
