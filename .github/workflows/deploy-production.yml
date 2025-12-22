@@ -33,7 +33,7 @@ jobs:
             git fetch origin
             git checkout production
             git pull origin production
-            
+
             echo "--> Clear build cache..."
             rm -rf node_modules/.bin/next
             rm -rf .next
