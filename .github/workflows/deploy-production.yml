@@ -20,38 +20,15 @@ jobs:
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           port: ${{ secrets.PRODUCTION_PORT }}
           script: |
+            echo "[GITHUB ACTION] Start to execute..."
             cd ${{ secrets.PRODUCTION_PATH }}
-
-            echo "--> Setup NVM..."
-            export NVM_DIR="$HOME/.nvm"
-            source $NVM_DIR/nvm.sh
-
-            nvm install 22.16.0
-            nvm use 22.16.0
 
             echo "--> Git sync..."
             git fetch origin
             git checkout production
             git pull origin production
 
-            echo "--> Clear build cache..."
-            rm -rf node_modules/.bin/next
-            rm -rf .next
+            chmod +x ./setup.sh
+            sed -i 's/\r$//' setup.sh && bash setup.sh
 
-            echo "--> Install dependencies..."
-            npm ci
-
-            echo "--> Build application..."
-            npm run build
-
-            echo "--> Set permission..."
-            chmod +x ./docker/bash/fixperm.sh
-            ./docker/bash/fixperm.sh
-            echo "INFO: Permission successfully set"
-
-            echo "--> Run application..."
-            npm run pm2:restart || npm run pm2:start
-            pm2 startup
-            pm2 save
-
-            echo "INFO: Deployment completed successfully"
+            echo "[GITHUB ACTION] All task has been executed successfully..."
