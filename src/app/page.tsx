@@ -9,18 +9,21 @@ export default function Home() {
     note: ''
   });
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; data?: {
-    uid: string;
-    short_url: string;
-    long_url: string;
-    note?: string;
-    clicks: number;
-    is_active: boolean;
-    updated_at: string;
-    qrcode_url: string;
-  }; error?: string } | null>(null);
+  const [result, setResult] = useState<{
+    success: boolean; data?: {
+      uid: string;
+      short_url: string;
+      long_url: string;
+      note?: string;
+      clicks: number;
+      is_active: boolean;
+      updated_at: string;
+      qrcode_url: string;
+    }; error?: string
+  } | null>(null);
   const [showForm, setShowForm] = useState(true);
   const [showToast, setShowToast] = useState(false);
+  const [showHowToUse, setShowHowToUse] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,7 +104,18 @@ export default function Home() {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           {/* Header with logo */}
           {showForm && (
-            <div className="text-center p-8 border-b border-gray-100 pb-4 sm:pb-4">
+            <div className="text-center p-8 border-b border-gray-100 pb-4 sm:pb-4 relative">
+              {/* How to Use Button */}
+              <button
+                onClick={() => setShowHowToUse(true)}
+                className="absolute top-4 right-4 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors cursor-pointer"
+                title="How to Use"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+
               <div className="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden">
                 <img
                   src="/logo-dark-circle.png"
@@ -329,6 +343,58 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <span>Copied to clipboard!</span>
+          </div>
+        </div>
+      )}
+
+      {/* How to Use Modal */}
+      {showHowToUse && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowHowToUse(false)}
+          />
+
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-in fade-in zoom-in duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">How to Use</h2>
+                  <p className="text-sm text-gray-500">Follow the guide below to generate short links</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowHowToUse(false)}
+                className="w-10 h-10 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer"
+                title="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Body with iframe */}
+            <div className="p-4 overflow-auto" style={{ maxHeight: 'calc(90vh - 80px)' }}>
+              <div className="w-full flex justify-center">
+                <iframe
+                  src="https://scribehow.com/embed/Generate_a_Short_Link__EB8k2AXtSHeVxZjBlZLweg?as=video"
+                  width="100%"
+                  height="679"
+                  allow="fullscreen"
+                  style={{ aspectRatio: '16 / 12', border: 0, minHeight: '480px', maxWidth: '800px' }}
+                  title="How to Generate a Short Link"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
